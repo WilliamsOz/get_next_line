@@ -6,11 +6,40 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/11/24 09:48:16 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/24 17:26:22 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+
+char	*manage_rest(char *buffer, t_node *book, char *line, size_t is_eof)
+{
+	int		i;
+
+	book->s_line = cpy_rest_from_buffer(book, buffer, is_eof, -1);
+	if (is_eof == 0)
+	{
+		line = get_line(book, line, 0, is_eof);
+		return (line);
+	}
+	i = 0;
+	while (book->s_line[i] != '\0' && book->s_line[i] != '\n')
+		i++;
+	if (book->s_line[i] == '\n')
+	{
+		line = get_line(book, line, 0, is_eof);
+		return (line);
+	}
+	else if (book->s_line[i] == '\0')
+	{
+		i = -1;
+		while (++i < BUFFER_SIZE)
+			buffer[i] = '\0';
+		is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
+		line = manage_rest(buffer, book, line, is_eof);
+	}
+	return (line);
+}
 
 char	*first_node(const int fd, char *line, t_node **book, char *buffer)
 {
@@ -72,16 +101,10 @@ char	*current_node(char *buffer, char *line, t_node **book)
 	is_eof = read((*book)->s_fd, buffer, BUFFER_SIZE);
 	if (is_eof == 0)
 	{
-		PRINTZ(is_eof)
-		if (!(line = (char*)malloc(sizeof(char) * 1)))
-			return (NULL);
-		line[0] = '\0';
+		line = get_line((*book), line, 0, is_eof);
 		return (line);
 	}
-	if (is_eof == 0)
-		line = read_line((*book), line, 0, is_eof);
-	else
-		line = manage_rest(buffer, (*book), line, is_eof);
+	line = manage_rest(buffer, (*book), line, is_eof);
 	i = -1;
 	while (++i < BUFFER_SIZE)
 		buffer[i] = '\0';
@@ -97,10 +120,7 @@ int		get_next_line(int fd, char **line)
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (-1);
 	if (book == NULL)
-	{
 		*line = first_node(fd, *line, &book, buffer);
-
-	}
 	else if (book != NULL && book->s_line != NULL)
 	{
 		temp = book;
@@ -119,47 +139,33 @@ int		get_next_line(int fd, char **line)
 	return (1);
 }
 
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
+// #include <unistd.h>
+// #include <fcntl.h>
+// #include <stdio.h>
+// #include <stdlib.h>
 
-int		main(void)
-{
-	char	*line;
-	int		file;
-	int		file2;
-	int		res;
+// int		main(void)
+// {
+// 	char	*line;
+// 	int		file;
+// 	int		res;
 
-	file = open("./cc.txt", O_RDONLY);
-	file2 = open("./cc.txt", O_RDONLY);
-	res = 1;
-	while (res > 0)
-	{
-		res = get_next_line(file, &line);
-		if (res != -1)
-		{
-			printf(res ? "%s\n" : "%s", line);
-			free(line);
-		}
-		else
-		{
-			printf("error -1");
-			return (0);
-		}
-		res = get_next_line(file2, &line);
-		if (res != -1)
-		{
-			printf(res ? "%s\n" : "%s", line);
-			free(line);
-		}
-		else
-		{
-			printf("error -1");
-			return (0);
-		}
-	}
-	close(file);
-	close(file2);
-	return (0);
-}
+// 	file = open("./default_one_big_fat_line.txt", O_RDONLY);
+// 	res = 1;
+// 	while (res > 0)
+// 	{
+// 		res = get_next_line(file, &line);
+// 		if (res != -1)
+// 		{
+// 			printf(res ? "%s\n" : "%s", line);
+// 			free(line);
+// 		}
+// 		else
+// 		{
+// 			printf("error -1");
+// 			return (0);
+// 		}
+// 	}
+// 	close(file);
+// 	return (0);
+// }
