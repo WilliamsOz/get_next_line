@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/11/23 14:41:25 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/24 09:19:49 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ char	*first_node(const int fd, char *line, t_node **book, char *buffer)
 	(*book)->s_fd = fd;
 	(*book)->s_line = NULL;
 	is_eof = read(fd, buffer, BUFFER_SIZE);
+	if (is_eof == 0)
+	{
+		if (!(line = (char*)malloc(sizeof(char) * 1)))
+			return (NULL);
+		line[0] = '\0';
+		return (line);
+	}
 	line = manage_rest(buffer, (*book), line, is_eof);
 	i = -1;
 	while (++i < BUFFER_SIZE)
@@ -105,7 +112,7 @@ int		get_next_line(int fd, char **line)
 // 	int		file;
 // 	int		res;
 
-// 	file = open("./alphabet", O_RDONLY);
+// 	file = open("./cc.txt", O_RDONLY);
 // 	res = 1;
 // 	while (res > 0)
 // 	{
@@ -123,4 +130,3 @@ int		get_next_line(int fd, char **line)
 // 	}
 // 	return (0);
 // }
-

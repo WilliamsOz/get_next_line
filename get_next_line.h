@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:56:05 by user42            #+#    #+#             */
-/*   Updated: 2020/11/23 14:37:49 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/24 09:06:10 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 #ifndef BUFFER_SIZE
-#define BUFFER_SIZE 2
+#define BUFFER_SIZE 1
 #endif
 
 # include <stdlib.h>
@@ -43,5 +43,20 @@ char					*new_node(const int fd, char *line, t_node **book,
 char					*current_node(char *buffer, char *line,
 	t_node **book);
 int						get_next_line(const int fd, char **line);
+
+//DEL
+
+#include <unistd.h>
+#include <fcntl.h>
+#include <stdio.h>
+#include <stdlib.h>
+
+# define DEBUG printf("ICI\n");
+# define PRINTD(x) printf("%d\n", x);
+# define PRINTC(x) printf("%c\n", x);
+# define PRINTS(x) printf("%s\n", x);
+# define PRINTZ(x) printf("%zu\n", x);
+
+//DEL
 
 #endif
