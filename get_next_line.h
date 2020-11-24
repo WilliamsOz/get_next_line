@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:56:05 by user42            #+#    #+#             */
-/*   Updated: 2020/11/24 09:06:10 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/24 09:48:11 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct			s_node
 	struct s_node		*next;
 }						t_node;
 
-void					free_book(const int fd, t_node *book);
+void					free_book(const int fd, t_node **book);
 char					*strsjoin(char *str1, char *str2, char *dest,
 	int len);
 char					*cpy_rest_from_buffer(t_node *book, char *buffer,

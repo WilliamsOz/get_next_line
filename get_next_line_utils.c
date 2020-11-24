@@ -6,38 +6,39 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:32:04 by user42            #+#    #+#             */
-/*   Updated: 2020/11/24 09:25:13 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/24 09:47:06 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-void	free_book(const int fd, t_node *book)
+void	free_book(const int fd, t_node **book)
 {
 	t_node	*before;
 	t_node	*after;
 	t_node	*keep;
 
-	if (book->next == NULL && book->s_fd == fd)
+	if ((*book)->next == NULL && (*book)->s_fd == fd)
 	{
-		if (book->s_line != NULL)
-			free(book->s_line);
-		free(book);
+		if ((*book)->s_line != NULL)
+			free((*book)->s_line);
+		free(*book);
+		(*book) = NULL;
 	}
 	else
 	{
-		keep = book;
-		before = book;
-		while (book->s_fd != fd)
-			book = book->next;
-		while (before->next != book)
+		keep = (*book);
+		before = (*book);
+		while ((*book)->s_fd != fd)
+			(*book) = (*book)->next;
+		while (before->next != (*book))
 			before = before->next;
-		after = book->next;
-		if (book->s_line != NULL)
-			free(book->s_line);
-		free(book);
+		after = (*book)->next;
+		if ((*book)->s_line != NULL)
+			free((*book)->s_line);
+		free((*book));
 		before->next = after;
-		book = keep;
+		(*book) = keep;
 	}
 }
 
