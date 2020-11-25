@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:32:04 by user42            #+#    #+#             */
-/*   Updated: 2020/11/24 17:20:04 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/25 11:00:03 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ char	*get_line(t_node *book, char *line, int i, size_t is_eof)
 	book->s_line = cpy_rest_from_buffer(book, buffer, is_eof, -1);
 	while (book->s_line[i] != '\0' && book->s_line[i] != '\n')
 		i++;
-	if ((book->s_line[i] == '\0') || (book->s_line[0] == '\n' && is_eof == 0))
+	if (book->s_line[i] == '\0')
 	{
 		line = strsjoin(book->s_line, NULL, line, 0);
 		free(book->s_line);

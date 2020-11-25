@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/11/24 17:26:22 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/25 11:37:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,8 +117,11 @@ int		get_next_line(int fd, char **line)
 	t_node			*temp;
 	char			buffer[BUFFER_SIZE];
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (!line || fd < 0 || BUFFER_SIZE <= 0)
+	{
+		*line = NULL;
 		return (-1);
+	}
 	if (book == NULL)
 		*line = first_node(fd, *line, &book, buffer);
 	else if (book != NULL && book->s_line != NULL)
@@ -150,18 +153,19 @@ int		get_next_line(int fd, char **line)
 // 	int		file;
 // 	int		res;
 
-// 	file = open("./default_one_big_fat_line.txt", O_RDONLY);
+// 	file = open("./cc", O_RDONLY);
 // 	res = 1;
 // 	while (res > 0)
 // 	{
 // 		res = get_next_line(file, &line);
 // 		if (res != -1)
 // 		{
-// 			printf(res ? "%s\n" : "%s", line);
+// 			printf(res ? "|%s|\n" : "|%s|", line);
 // 			free(line);
 // 		}
 // 		else
 // 		{
+// 			printf("%s\n", line);
 // 			printf("error -1");
 // 			return (0);
 // 		}
