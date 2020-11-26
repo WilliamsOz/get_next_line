@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/11/25 11:37:31 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/26 15:13:23 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*manage_rest(char *buffer, t_node *book, char *line, size_t is_eof)
 	book->s_line = cpy_rest_from_buffer(book, buffer, is_eof, -1);
 	if (is_eof == 0)
 	{
-		line = get_line(book, line, 0, is_eof);
+		line = get_line(book, line, -1, is_eof);
 		return (line);
 	}
 	i = 0;
@@ -27,7 +27,7 @@ char	*manage_rest(char *buffer, t_node *book, char *line, size_t is_eof)
 		i++;
 	if (book->s_line[i] == '\n')
 	{
-		line = get_line(book, line, 0, is_eof);
+		line = get_line(book, line, -1, is_eof);
 		return (line);
 	}
 	else if (book->s_line[i] == '\0')
@@ -101,7 +101,7 @@ char	*current_node(char *buffer, char *line, t_node **book)
 	is_eof = read((*book)->s_fd, buffer, BUFFER_SIZE);
 	if (is_eof == 0)
 	{
-		line = get_line((*book), line, 0, is_eof);
+		line = get_line((*book), line, -1, is_eof);
 		return (line);
 	}
 	line = manage_rest(buffer, (*book), line, is_eof);
@@ -118,10 +118,7 @@ int		get_next_line(int fd, char **line)
 	char			buffer[BUFFER_SIZE];
 
 	if (!line || fd < 0 || BUFFER_SIZE <= 0)
-	{
-		*line = NULL;
 		return (-1);
-	}
 	if (book == NULL)
 		*line = first_node(fd, *line, &book, buffer);
 	else if (book != NULL && book->s_line != NULL)
@@ -153,7 +150,7 @@ int		get_next_line(int fd, char **line)
 // 	int		file;
 // 	int		res;
 
-// 	file = open("./cc", O_RDONLY);
+// 	file = open("./bible.txt", O_RDONLY);
 // 	res = 1;
 // 	while (res > 0)
 // 	{
@@ -165,7 +162,6 @@ int		get_next_line(int fd, char **line)
 // 		}
 // 		else
 // 		{
-// 			printf("%s\n", line);
 // 			printf("error -1");
 // 			return (0);
 // 		}

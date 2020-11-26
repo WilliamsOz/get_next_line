@@ -6,7 +6,7 @@
 /*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:32:04 by user42            #+#    #+#             */
-/*   Updated: 2020/11/25 11:00:03 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/26 15:12:31 by user42           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,22 +87,10 @@ char	*cpy_rest_from_buffer(t_node *book, char *buffer, size_t is_eof, int i)
 	return (book->s_line);
 }
 
-char	*get_line(t_node *book, char *line, int i, size_t is_eof)
+char	*still_readable(t_node *book, char *line, int i)
 {
-	char buffer[BUFFER_SIZE];
 	char *temp;
-	
-	is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
-	book->s_line = cpy_rest_from_buffer(book, buffer, is_eof, -1);
-	while (book->s_line[i] != '\0' && book->s_line[i] != '\n')
-		i++;
-	if (book->s_line[i] == '\0')
-	{
-		line = strsjoin(book->s_line, NULL, line, 0);
-		free(book->s_line);
-		book->s_line = NULL;
-		return (line);
-	}
+
 	if (!(line = (char*)malloc(sizeof(char) * (i + 1))))
 		return (NULL);
 	line[i] = '\0';
@@ -112,5 +100,27 @@ char	*get_line(t_node *book, char *line, int i, size_t is_eof)
 	temp = book->s_line;
 	book->s_line = strsjoin(temp + i + 1, NULL, book->s_line, 0);
 	free(temp);
+	return (line);
+}
+
+char	*get_line(t_node *book, char *line, int i, size_t is_eof)
+{
+	char buffer[BUFFER_SIZE];
+	
+	is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
+	book->s_line = cpy_rest_from_buffer(book, buffer, is_eof, -1);
+	while (++i < BUFFER_SIZE)
+		buffer[i] = '\0';
+	i = 0;
+	while (book->s_line[i] != '\0' && book->s_line[i] != '\n')
+		i++;
+	if (book->s_line[i] == '\0')
+	{
+		line = strsjoin(book->s_line, NULL, line, 0);
+		free(book->s_line);
+		book->s_line = NULL;
+	}
+	else
+		line = still_readable(book, line, i);
 	return (line);
 }
