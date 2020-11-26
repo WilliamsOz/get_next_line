@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:56:05 by user42            #+#    #+#             */
-/*   Updated: 2020/11/26 15:05:31 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/26 19:02:20 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ char					*strsjoin(char *str1, char *str2, char *dest,
 char					*cpy_rest_from_buffer(t_node *book, char *buffer,
 	size_t is_eof, int i);
 char					*is_another_line(t_node *book, size_t is_eof, int i);
+char					*still_readable(t_node *book, char *line, int i);
 char					*get_line(t_node *book, char *line, int i,
 	size_t is_eof);
 char					*manage_rest(char *buffer, t_node *book, char *line,

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: user42 <user42@student.42.fr>              +#+  +:+       +#+        */
+/*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:32:04 by user42            #+#    #+#             */
-/*   Updated: 2020/11/26 15:12:31 by user42           ###   ########.fr       */
+/*   Updated: 2020/11/26 18:45:34 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,12 +109,10 @@ char	*get_line(t_node *book, char *line, int i, size_t is_eof)
 	
 	is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
 	book->s_line = cpy_rest_from_buffer(book, buffer, is_eof, -1);
-	while (++i < BUFFER_SIZE)
-		buffer[i] = '\0';
 	i = 0;
 	while (book->s_line[i] != '\0' && book->s_line[i] != '\n')
 		i++;
-	if (book->s_line[i] == '\0')
+	if (book->s_line[i] == '\0' && is_eof == 0)
 	{
 		line = strsjoin(book->s_line, NULL, line, 0);
 		free(book->s_line);
