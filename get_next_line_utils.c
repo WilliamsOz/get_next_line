@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:32:04 by user42            #+#    #+#             */
-/*   Updated: 2020/11/26 18:45:34 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/11/27 11:31:33 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,38 +87,54 @@ char	*cpy_rest_from_buffer(t_node *book, char *buffer, size_t is_eof, int i)
 	return (book->s_line);
 }
 
-char	*still_readable(t_node *book, char *line, int i)
+char	*get_rest(t_node *book, int i, char *buffer, int clear_buffer)
 {
-	char *temp;
-
-	if (!(line = (char*)malloc(sizeof(char) * (i + 1))))
-		return (NULL);
-	line[i] = '\0';
-	i = -1;
-	while (book->s_line[++i] != '\0' && book->s_line[i] != '\n')
-		line[i] = book->s_line[i];
-	temp = book->s_line;
-	book->s_line = strsjoin(temp + i + 1, NULL, book->s_line, 0);
-	free(temp);
-	return (line);
+	size_t	is_eof;
+	char	*temp;
+	
+	while (book->s_line[i] != '\0' && book->s_line[i] != '\n')
+		i++;
+	if (book->s_line[i] == '\n' && book->s_line[i + 1] != '\0')
+	{
+		temp = book->s_line;
+		book->s_line = strsjoin(temp + i + 1, NULL, book->s_line, 0);
+		free(temp);
+	}
+	else
+	{
+		free(book->s_line);
+		book->s_line = NULL;
+	}
+	while (++clear_buffer < BUFFER_SIZE)
+		buffer[clear_buffer] = '\0';
+	is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
+	book->s_line = cpy_rest_from_buffer(book, buffer, is_eof, -1);
+	return (book->s_line);
 }
 
 char	*get_line(t_node *book, char *line, int i, size_t is_eof)
 {
-	char buffer[BUFFER_SIZE];
-	
-	is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
-	book->s_line = cpy_rest_from_buffer(book, buffer, is_eof, -1);
-	i = 0;
+	char	buffer[BUFFER_SIZE];
+
 	while (book->s_line[i] != '\0' && book->s_line[i] != '\n')
 		i++;
-	if (book->s_line[i] == '\0' && is_eof == 0)
+	if (!(line = (char*)malloc(sizeof(char) * (i + 1))))
+		return (NULL);
+	line[i] = '\0';
+	i = 0;
+	while (book->s_line[i] != '\0' && book->s_line[i] != '\n')
 	{
-		line = strsjoin(book->s_line, NULL, line, 0);
+		line[i] = book->s_line[i];
+		i++;
+	}
+	if (is_eof == 0 && book->s_line[i] == '\0')
+	{
 		free(book->s_line);
 		book->s_line = NULL;
+		return (line);
 	}
 	else
-		line = still_readable(book, line, i);
+		get_rest(book, 0, buffer, -1);
 	return (line);
 }
+

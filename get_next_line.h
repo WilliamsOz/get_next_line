@@ -6,16 +6,16 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:56:05 by user42            #+#    #+#             */
-/*   Updated: 2020/11/26 19:02:20 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/11/27 11:52:20 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
 
-#ifndef BUFFER_SIZE
-#define BUFFER_SIZE 1
-#endif
+// #ifndef BUFFER_SIZE
+// #define BUFFER_SIZE 30
+// #endif
 
 # include <stdlib.h>
 # include <unistd.h>
@@ -32,8 +32,8 @@ char					*strsjoin(char *str1, char *str2, char *dest,
 	int len);
 char					*cpy_rest_from_buffer(t_node *book, char *buffer,
 	size_t is_eof, int i);
-char					*is_another_line(t_node *book, size_t is_eof, int i);
-char					*still_readable(t_node *book, char *line, int i);
+char					*get_rest(t_node *book, int i, char *buffer,
+	int clear_buffer);
 char					*get_line(t_node *book, char *line, int i,
 	size_t is_eof);
 char					*manage_rest(char *buffer, t_node *book, char *line,

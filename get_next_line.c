@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/11/26 19:02:57 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/11/27 11:52:19 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,24 @@
 
 char	*manage_rest(char *buffer, t_node *book, char *line, size_t is_eof)
 {
+	int		clear_buffer;
 	int		i;
-
+	
 	if (is_eof > 0)
 		book->s_line = cpy_rest_from_buffer(book, buffer, is_eof, -1);
-	if (is_eof == 0)
-	{
-		line = get_line(book, line, -1, is_eof);
-		return (line);
-	}
 	i = 0;
 	while (book->s_line[i] != '\0' && book->s_line[i] != '\n')
 		i++;
-	if (book->s_line[i] == '\n')
-		line = get_line(book, line, -1, is_eof);
+	if (is_eof == 0 || book->s_line[i] == '\n')
+	{
+		line = get_line(book, line, 0, is_eof);
+		return (line);
+	}
 	else if (book->s_line[i] == '\0' && is_eof > 0)
 	{
-		i = -1;
-		while (++i < BUFFER_SIZE)
-			buffer[i] = '\0';
+		clear_buffer = -1;
+		while (++clear_buffer < BUFFER_SIZE)
+			buffer[clear_buffer] = '\0';
 		is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
 		line = manage_rest(buffer, book, line, is_eof);
 	}
@@ -53,13 +52,6 @@ char	*first_node(const int fd, char *line, t_node **book, char *buffer)
 	while (++i < BUFFER_SIZE)
 		buffer[i] = '\0';
 	is_eof = read(fd, buffer, BUFFER_SIZE);
-	// if (is_eof == 0)
-	// {
-	// 	if (!(line = (char*)malloc(sizeof(char) * 1)))
-	// 		return (NULL);
-	// 	line[0] = '\0';
-	// 	return (line);
-	// }
 	line = manage_rest(buffer, (*book), line, is_eof);
 	return (line);
 }
@@ -80,13 +72,6 @@ char	*new_node(const int fd, char *line, t_node **book, char *buffer)
 	while (++i < BUFFER_SIZE)
 		buffer[i] = '\0';
 	is_eof = read(fd, buffer, BUFFER_SIZE);
-	// if (is_eof == 0)
-	// {
-	// 	if (!(line = (char*)malloc(sizeof(char) * 1)))
-	// 		return (NULL);
-	// 	line[0] = '\0';
-	// 	return (line);
-	// }
 	line = manage_rest(buffer, (*book), line, is_eof);
 	return (line);
 }
@@ -132,33 +117,33 @@ int		get_next_line(int fd, char **line)
 	return (1);
 }
 
-#include <unistd.h>
-#include <fcntl.h>
-#include <stdio.h>
-#include <stdlib.h>
+// #include <unistd.h>
+// #include <fcntl.h>
+// #include <stdio.h>
+// #include <stdlib.h>
 
-int		main(void)
-{
-	char	*line;
-	int		file;
-	int		res;
+// int		main(void)
+// {
+// 	char	*line;
+// 	int		file;
+// 	int		res;
 
-	file = open("./bible.txt", O_RDONLY);
-	res = 1;
-	while (res > 0)
-	{
-		res = get_next_line(file, &line);
-		if (res != -1)
-		{
-			printf(res ? "|%s|\n" : "|%s|", line);
-			free(line);
-		}
-		else
-		{
-			printf("error -1");
-			return (0);
-		}
-	}
-	close(file);
-	return (0);
-}
+// 	file = open("./bible2.txt", O_RDONLY);
+// 	res = 1;
+// 	while (res > 0)
+// 	{
+// 		res = get_next_line(file, &line);
+// 		if (res != -1)
+// 		{
+// 			printf(res ? "|%s|\n" : "|%s|", line);
+// 			free(line);
+// 		}
+// 		else
+// 		{
+// 			printf("error -1");
+// 			return (0);
+// 		}
+// 	}
+// 	close(file);
+// 	return (0);
+// }
