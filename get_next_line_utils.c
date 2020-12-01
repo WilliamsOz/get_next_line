@@ -6,37 +6,36 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:32:04 by user42            #+#    #+#             */
-/*   Updated: 2020/12/01 15:02:00 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/01 16:38:39 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./get_next_line.h"
 
-int		free_book(const int fd, t_node *book)
+int		free_book(int fd, t_node *book, int i)
 {
 	t_node	*before;
 	t_node	*after;
 	t_node	*keep;
 
-	if (book->next == NULL && book->s_fd == fd)
+	keep = book;
+	while (book->s_fd != fd && i++)
+		book = book->next;
+	if (i == 0)
 	{
-		if (book->s_line != NULL)
-			free(book->s_line);
+		after = book->next;
 		free(book);
+		book = after;
 	}
 	else
 	{
-		keep = book;
-		before = book;
-		while (book->s_fd != fd)
-			book = book->next;
+		after = book->next;
+		before = keep;
 		while (before->next != book)
 			before = before->next;
-		after = book->next;
-		if (book->s_line != NULL)
-			free(book->s_line);
 		free(book);
 		before->next = after;
+		book = keep;
 	}
 	return (1);
 }

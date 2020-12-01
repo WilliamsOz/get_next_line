@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:56:05 by user42            #+#    #+#             */
-/*   Updated: 2020/12/01 15:21:50 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/01 16:40:44 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct			s_node
 	struct s_node		*next;
 }						t_node;
 
-int						free_book(const int fd, t_node *book);
+int						free_book(int fd, t_node *book, int i);
 char					*strsjoin(char *str1, char *str2, int i, int len);
 char					*get_line_in_rest(t_node *book, char *buffer, int i,
 	size_t is_eof);

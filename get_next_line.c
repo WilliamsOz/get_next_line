@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/12/01 15:21:48 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/01 16:40:50 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,11 +118,11 @@ int		get_next_line(int fd, char **line)
 		else
 		{
 			*line = current_node(*line, temp);
-			if (temp->s_line == NULL && free_book(temp->s_fd, temp) == 1)
+			if (temp->s_line == NULL && (free_book(fd, book, 0)) == 1)
 				return (0);
 		}
 	}
-	if (book->s_line == NULL && free_book(book->s_fd, book) == 1)
+	if (book->s_line == NULL && (free_book(fd, book, 0)) == 1)
 		return (0);
 	return (1);
 }
