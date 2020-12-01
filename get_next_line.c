@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/12/01 14:16:48 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/01 15:21:48 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ char	*get_line(t_node *book, char *line, int len, char *buffer)
 	is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
 	if (is_eof == 0 && book->s_line[len] == '\0')
 	{
-		free(book->s_line);
+		if (book->s_line != NULL)
+			free(book->s_line);
 		book->s_line = NULL;
 	}
 	else
@@ -107,14 +108,14 @@ int		get_next_line(int fd, char **line)
 		return (-1);
 	if (book == NULL)
 		*line = first_node(fd, *line, &book);
-	else if (book != NULL)
+	else
 	{
 		temp = book;
 		while (temp != NULL && fd != temp->s_fd)
 			temp = temp->next;
 		if (temp == NULL)
 			*line = new_node(fd, *line, book);
-		else if (book->s_line != NULL)
+		else
 		{
 			*line = current_node(*line, temp);
 			if (temp->s_line == NULL && free_book(temp->s_fd, temp) == 1)

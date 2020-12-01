@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:32:04 by user42            #+#    #+#             */
-/*   Updated: 2020/12/01 14:16:41 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/01 15:02:00 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,8 @@ char	*get_line_in_rest(t_node *book, char *buffer, int i, size_t is_eof)
 	{
 		is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
 		temp = strsjoin(book->s_line, buffer, 0, 0);
-		free(book->s_line);
+		if (book->s_line != NULL)
+			free(book->s_line);
 		book->s_line = temp;
 		clear_buffer = -1;
 		while (++clear_buffer < BUFFER_SIZE + 1)
@@ -104,8 +105,8 @@ char	*get_rest(t_node *book, char *buffer, int i)
 			free(keep);
 		while (++i < BUFFER_SIZE + 1)
 			buffer[i] = '\0';
+		book->s_line = get_line_in_rest(book, buffer, 0, is_eof);
 	}
-	book->s_line = get_line_in_rest(book, buffer, 0, is_eof);
 	return (book->s_line);
 }
 
@@ -120,10 +121,10 @@ char	*get_next_rest(t_node *book, char *buffer, int i, size_t is_eof)
 		keep = strsjoin(book->s_line + i + 1, NULL, 0, 0);
 	else
 		keep = NULL;
-	cpy = -1;
 	if (!(temp = (char*)malloc(sizeof(char) * (is_eof + 1))))
 		return (NULL);
 	temp[is_eof] = '\0';
+	cpy = -1;
 	while (++cpy < is_eof)
 		temp[cpy] = buffer[cpy];
 	get_rest = strsjoin(keep, temp, 0, 0);
