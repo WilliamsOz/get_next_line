@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/06 09:32:04 by user42            #+#    #+#             */
-/*   Updated: 2020/12/01 14:01:18 by wiozsert         ###   ########.fr       */
+/*   Created: 2020/12/01 14:18:27 by wiozsert          #+#    #+#             */
+/*   Updated: 2020/12/01 14:18:29 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,8 @@ char	*get_next_rest(t_node *book, char *buffer, int i, size_t is_eof)
 	if (keep != NULL)
 		free(keep);
 	free(temp);
-	free(book->s_line);
+	if (book->s_line != NULL)
+		free(book->s_line);
 	book->s_line = get_rest;
 	return (book->s_line);
 }
