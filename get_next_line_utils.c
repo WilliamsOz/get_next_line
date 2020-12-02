@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:32:04 by user42            #+#    #+#             */
-/*   Updated: 2020/12/01 18:10:47 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/02 01:16:43 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*get_rest(t_node *book, char *buffer, int i)
 	char	*keep;
 
 	is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
-	keep = strsjoin(book->s_line, buffer, 0, 0);;
+	keep = strsjoin(book->s_line, buffer, 0, 0);
 	if (book->s_line != NULL)
 		free(book->s_line);
 	book->s_line = keep;

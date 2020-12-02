@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/12/01 18:12:01 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/02 01:17:41 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		get_next_line(int fd, char **line)
 	static t_node	*book;
 	t_node			*temp;
 
-	if (!line || fd < 0 || BUFFER_SIZE <= 0)
+	if (!line || fd < 0 || BUFFER_SIZE <= 0 || read(fd, NULL, 0))
 		return (-1);
 	if (book == NULL)
 		*line = first_node(fd, *line, &book);
