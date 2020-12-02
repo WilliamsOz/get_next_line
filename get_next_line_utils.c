@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/10/06 09:32:04 by user42            #+#    #+#             */
-/*   Updated: 2020/12/02 01:16:43 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/02 02:21:32 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,9 @@ char	*get_next_rest(t_node *book, char *buffer, int i, size_t is_eof)
 	size_t	cpy;
 
 	if (book->s_line[i + 1] != '\0')
+	{
 		keep = strsjoin(book->s_line + i + 1, NULL, 0, 0);
+	}
 	else
 		keep = NULL;
 	if (!(temp = (char*)malloc(sizeof(char) * (is_eof + 1))))

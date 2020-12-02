@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/12/02 01:17:41 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/02 02:20:53 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char	*first_node(const int fd, char *line, t_node **book)
 	return (line);
 }
 
-char	*new_node(const int fd, char *line, t_node *book)
+char	*new_node(const int fd, char *line, t_node **book)
 {
 	char	buffer[BUFFER_SIZE + 1];
 	t_node	*new_book;
@@ -69,17 +69,17 @@ char	*new_node(const int fd, char *line, t_node *book)
 	if (!(new_book = (t_node*)malloc(sizeof(t_node) * 1)))
 		return (NULL);
 	new_book->s_fd = fd;
-	new_book->next = book;
+	new_book->next = (*book);
 	new_book->s_line = NULL;
-	book = new_book;
+	(*book) = new_book;
 	i = -1;
 	while (++i < BUFFER_SIZE + 1)
 		buffer[i] = '\0';
-	book->s_line = get_rest(book, buffer, -1);
+	(*book)->s_line = get_rest((*book), buffer, -1);
 	i = -1;
 	while (++i < BUFFER_SIZE + 1)
 		buffer[i] = '\0';
-	line = get_line(book, line, 0, buffer);
+	line = get_line((*book), line, 0, buffer);
 	return (line);
 }
 
@@ -114,7 +114,7 @@ int		get_next_line(int fd, char **line)
 		while (temp != NULL && fd != temp->s_fd)
 			temp = temp->next;
 		if (temp == NULL)
-			*line = new_node(fd, *line, book);
+			*line = new_node(fd, *line, &book);
 		else
 		{
 			*line = current_node(*line, temp);

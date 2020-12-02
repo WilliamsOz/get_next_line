@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:56:05 by user42            #+#    #+#             */
-/*   Updated: 2020/12/02 01:17:24 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/02 02:20:05 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char					*get_next_rest(t_node *book, char *buffer, int i,
 char					*get_line(t_node *book, char *line, int len,
 	char *buffer);
 char					*first_node(const int fd, char *line, t_node **book);
-char					*new_node(const int fd, char *line, t_node *book);
+char					*new_node(const int fd, char *line, t_node **book);
 char					*current_node(char *line, t_node *book);
 int						get_next_line(const int fd, char **line);
 
