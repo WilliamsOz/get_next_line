@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/12/02 02:20:34 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/02 12:28:54 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,9 @@ char	*get_line(t_node *book, char *line, int len, char *buffer)
 		line[len] = book->s_line[len];
 		len++;
 	}
-	is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
-	if (is_eof == 0 && book->s_line[len] == '\0')
+	if (book->s_fd > 0)
+		is_eof = read(book->s_fd, buffer, BUFFER_SIZE);
+	if ((is_eof == 0 && book->s_line[len] == '\0') || book->s_fd == 0)
 	{
 		if (book->s_line != NULL)
 			free(book->s_line);
