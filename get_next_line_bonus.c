@@ -6,7 +6,7 @@
 /*   By: wiozsert <wiozsert@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/09/07 14:43:23 by user42            #+#    #+#             */
-/*   Updated: 2020/12/02 12:37:34 by wiozsert         ###   ########.fr       */
+/*   Updated: 2020/12/02 12:40:25 by wiozsert         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ char	*get_line(t_node *book, char *line, int len, char *buffer)
 {
 	size_t	is_eof;
 
+	is_eof = 0;
 	while (book->s_line[len] != '\0' && book->s_line[len] != '\n')
 		len++;
 	if (!(line = (char*)malloc(sizeof(char) * (len + 1))))
